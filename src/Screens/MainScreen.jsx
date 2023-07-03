@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import Constants from 'expo-constants';
+import * as NavigationBar from 'expo-navigation-bar';
 
 export default function MainScreen() {
     const [tasks, setTasks] = useState([])
@@ -20,6 +21,8 @@ export default function MainScreen() {
             </Text>
         </View>
     );
+    
+    NavigationBar.setBackgroundColorAsync("white");
 
     return (
         <View style={styles.container}>
