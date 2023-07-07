@@ -1,14 +1,15 @@
-import { View, FlatList, StyleSheet } from 'react-native';
-import React, { useState } from 'react';
-import Constants from 'expo-constants';
-import * as NavigationBar from 'expo-navigation-bar';
-import MyModal from '../Components/MyModal';
-import Task from '../Components/Task';
-import AddTaskInput from '../Components/AddTaskInput';
+import { View, StyleSheet } from 'react-native'
+import React, { useState } from 'react'
+import Constants from 'expo-constants'
+import * as NavigationBar from 'expo-navigation-bar'
+import Modal from '../Components/MyModal'
+import TopBar from '../Components/TopBar'
+import TaskList from "../Components/TaskList"
+import NotFoundMessage from '../Components/NotFoundMessage'
 
 export default function MainScreen() {
     const [tasks, setTasks] = useState([])
-    const [selectedTaskId, setSelectedTaskId] = useState('')
+    const [selectedTask, setSelectedTask] = useState()
     const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false)
 
     const handleAddTask = (taskTitle) => {
@@ -28,38 +29,36 @@ export default function MainScreen() {
         )
     }
 
-    const handleDeleteTask = (taskId) => {
-        setSelectedTaskId(taskId)
+    const handleDeleteTask = (task) => {
+        setSelectedTask(task)
         setIsDeleteModalVisible(true)
     };
 
     const deleteTask = () => {
-        setTasks(tasks.filter((task) => task.id !== selectedTaskId));
+        setTasks(tasks.filter((task) => task.id !== (selectedTask?.id ?? '')));
         setIsDeleteModalVisible(false);
     }
 
-    NavigationBar.setBackgroundColorAsync("white");
+    NavigationBar.setBackgroundColorAsync("#E0F2F1");
 
     return (
         <View style={styles.container}>
-            <AddTaskInput
+            <TopBar
                 handleAddTask={handleAddTask}
             />
-            <FlatList
-                data={tasks}
-                renderItem={({ item }) =>
-                    <Task
-                        task={item}
-                        handleCompleteTask={handleCompleteTask}
-                        handleDeleteTask={handleDeleteTask}
-                    />
-                }
-                keyExtractor={(item) => item.id.toString()}
-                contentContainerStyle={styles.tasksList}
-            />
-            <MyModal
+            {tasks.length !== 0
+                ? <TaskList
+                    tasks={tasks}
+                    handleCompleteTask={handleCompleteTask}
+                    handleDeleteTask={handleDeleteTask}
+                />
+                : <NotFoundMessage />
+
+            }
+            <Modal
                 visible={isDeleteModalVisible}
                 title={'¿Eliminar tarea?'}
+                content={'Se borrará la tarea' + (selectedTask?.title && (' "' + selectedTask.title + '"')) + '.'}
                 primaryButtonLabel={'Sí, eliminar'}
                 secondaryButtonLabel={'No, cancelar'}
                 onPrimaryButtonPress={deleteTask}
@@ -71,11 +70,8 @@ export default function MainScreen() {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 18,
-        marginTop: Constants.statusBarHeight
-    },
-    tasksList: {
-        flexGrow: 1,
-        marginTop: 12
+        paddingTop: Constants.statusBarHeight,
+        backgroundColor: '#E0F2F1',
+        flex: 1
     },
 });

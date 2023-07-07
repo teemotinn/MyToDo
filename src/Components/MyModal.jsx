@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Modal, Button } from 'react-native'
+import { StyleSheet, Text, View, Modal, Button, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 const MyModal = ({
@@ -11,15 +11,29 @@ const MyModal = ({
     onSecondaryButtonPress
 }) => {
     return (
-        <Modal visible={visible} animationType='fade' transparent>
+        <Modal visible={visible} animationType='fade' transparent statusBarTranslucent>
             <View style={styles.modalContainer}>
                 <View style={styles.modalContent}>
                     <Text style={styles.title}>{title}</Text>
                     {content && <Text style={styles.content}>{content}</Text>}
                     <View style={styles.buttonContainer}>
-                        <Button title={primaryButtonLabel} onPress={onPrimaryButtonPress} />
+                        <TouchableOpacity
+                            onPress={onPrimaryButtonPress}
+                            style={styles.primaryButton}
+                        >
+                            <Text style={styles.primaryButtonText}>
+                                {primaryButtonLabel}
+                            </Text>
+                        </TouchableOpacity>
                         {secondaryButtonLabel && (
-                            <Button title={secondaryButtonLabel} onPress={onSecondaryButtonPress} />
+                            <TouchableOpacity
+                                onPress={onSecondaryButtonPress}
+                                style={styles.secondaryButton}
+                            >
+                                <Text style={styles.secondaryButtonText}>
+                                    {secondaryButtonLabel}
+                                </Text>
+                            </TouchableOpacity>
                         )}
                     </View>
                 </View>
@@ -46,16 +60,42 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         padding: 20,
         borderRadius: 20,
+        width: '100%',
+        maxWidth: 300
     },
     title: {
+        textAlign: 'center',
         fontSize: 18,
         fontWeight: 'bold',
-        marginBottom: 10,
+        marginBottom: 12,
     },
     content: {
-        marginBottom: 10,
+        textAlign:'center',
+        marginBottom: 18,
     },
     buttonContainer: {
         flexDirection: 'column',
     },
+    primaryButton: {
+        backgroundColor: '#00695C',
+        borderRadius: 100,
+        paddingHorizontal: 12,
+        paddingVertical: 8
+    },
+    secondaryButton: {
+        marginTop: 6,
+        borderColor: '#00695C',
+        borderWidth: 1,
+        borderRadius: 100,
+        paddingHorizontal: 12,
+        paddingVertical: 8
+    },
+    primaryButtonText: {
+        textAlign: 'center',
+        color: '#FFF'
+    },
+    secondaryButtonText: {
+        textAlign: 'center',
+        color: '#00695C'
+    }
 })

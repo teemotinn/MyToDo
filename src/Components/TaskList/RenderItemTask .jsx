@@ -2,10 +2,10 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Task = ({ task, handleCompleteTask, handleDeleteTask }) => {
+const RenderItemTask = ({ task, handleCompleteTask, handleDeleteTask }) => {
     return (
-        <View style={styles.tasktask}>
-            <Text style={[task.completed && styles.completedTask]}>
+        <View style={styles.task}>
+            <Text style={[styles.title, task.completed && styles.completedTask]}>
                 {task.title}
             </Text>
             <View style={styles.taskMenu}>
@@ -19,12 +19,12 @@ const Task = ({ task, handleCompleteTask, handleDeleteTask }) => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    onPress={() => { handleDeleteTask(task.id) }}
+                    onPress={() => { handleDeleteTask(task) }}
                 >
                     <MaterialCommunityIcons
                         name={'delete'}
                         size={24}
-                        color={'red'}
+                        color={'#b71c1c'}
                     />
                 </TouchableOpacity>
             </View>
@@ -32,18 +32,30 @@ const Task = ({ task, handleCompleteTask, handleDeleteTask }) => {
     )
 }
 
-export default Task
+export default RenderItemTask
 
 const styles = StyleSheet.create({
-    tasktask: {
+    task: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginTop: 4,
-        borderColor: 'grey',
-        borderRadius: 14,
-        borderWidth: 1,
-        padding: 8
+        marginBottom: 8,
+        borderRadius: 10,
+        paddingVertical: 8,
+        paddingLeft: 14,
+        paddingRight: 6,
+        shadowColor: "#000",
+        backgroundColor: '#FFF',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+    },
+    title: {
+        flexShrink: 1
     },
     taskMenu: {
         flexDirection: 'row',
