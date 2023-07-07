@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet } from "react-native";
 import React from "react";
-import RenderItemTask from "./RenderItemTask ";
+import RenderItemTask from "./RenderItemTask";
 
 const TaskList = ({
     tasks,
